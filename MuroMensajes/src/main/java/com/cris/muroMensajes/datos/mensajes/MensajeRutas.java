@@ -31,7 +31,7 @@ public class MensajeRutas {
 	}
 	
 	
-	@PostMapping("/mensajes/añadir")
+	@PostMapping("/mensajes/anadir")
 	public String mensajeAnadir(@ModelAttribute Mensaje mensaje){
 		
 		mensajeDAO.save(mensaje);
