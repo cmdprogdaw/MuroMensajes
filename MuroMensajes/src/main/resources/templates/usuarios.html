@@ -34,16 +34,12 @@
 			  <div id="hayMensajes" th:case="false">
 				    <table class="table table-dark table-hover table-sm ">
 				      <tr>
-				        <th>Id</th>
 				        <th>Usuario</th>
-				        <th>Contraseña</th>
 				        <th>Nombre</th>
 				        <th>Apellidos</th>
 				      </tr>
 				      <tr th:each="usuario: ${usuarios}">
-				        <td th:text="${usuario.id}"></td>
 				        <td th:text="${usuario.user}"></td>
-				        <td th:text="${usuario.password}"></td>
 				        <td th:text="${usuario.nombre}"></td>
 				        <td th:text="${usuario.apellidos}"></td>
 				        <td><a type="button" class="btn btn-danger btn-sm" th:href="@{/usuarios/borrar/{id}(id=${usuario.id})}">Eliminar</a></td>

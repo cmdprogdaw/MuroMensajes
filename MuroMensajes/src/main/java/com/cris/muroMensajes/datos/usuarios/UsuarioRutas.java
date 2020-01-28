@@ -41,7 +41,7 @@ public class UsuarioRutas {
 	
 	
 	@GetMapping("/usuarios/borrar/{id}")
-	public String mensajesBorrar(@PathVariable long id){
+	public String mensajesBorrar(@PathVariable String id){
 		
 		
 		usuarioDAO.deleteById(id);
@@ -52,7 +52,7 @@ public class UsuarioRutas {
 	
 	
 	@GetMapping("/usuario/{id}")
-	public String detalle(@PathVariable long id, Model model){
+	public String detalle(@PathVariable String id, Model model){
 		
 		
 		Usuario usuario = usuarioDAO.findById(id).get();
