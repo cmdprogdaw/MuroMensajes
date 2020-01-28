@@ -13,7 +13,7 @@ public class Autenticacion implements UserDetailsService{
 
 	
 	@Autowired
-	UsuarioDAO usuarioDAO;
+	private UsuarioDAO usuarioDAO;
 	
 	
 	@Override

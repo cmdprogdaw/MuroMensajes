@@ -16,7 +16,7 @@ public class SecurityConf extends WebSecurityConfigurerAdapter{
 
 	
 	@Autowired
-	Autenticacion autenticacion;
+	private Autenticacion autenticacion;
 	
 	
 	@Override
