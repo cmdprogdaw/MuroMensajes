@@ -12,16 +12,14 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.cris.muroMensajes.beans.Encoder;
-
 @Controller
 public class UsuarioRutas {
 
 	@Autowired
 	private UsuarioDAO usuarioDAO;
 	
-	@Autowired
-	private Encoder encoder;
+//	@Autowired
+//	private Encoder encoder;
 	
 	
 	@GetMapping("/usuarios")
@@ -47,7 +45,6 @@ public class UsuarioRutas {
 		
 		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
 		usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
-		
 		
 		
 		usuarioDAO.save(usuario);

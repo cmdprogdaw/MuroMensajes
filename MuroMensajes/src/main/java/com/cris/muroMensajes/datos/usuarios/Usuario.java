@@ -1,15 +1,18 @@
 package com.cris.muroMensajes.datos.usuarios;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToMany;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+
+import com.cris.muroMensajes.datos.roles.Rol;
 
 @Entity
 public class Usuario implements UserDetails{
@@ -33,7 +36,29 @@ public class Usuario implements UserDetails{
 	private Integer telefono;
 
 	
+	
+	@ManyToMany
+	private List<Rol> roles = new ArrayList<Rol>();
+	
+	public void addRoles(Rol rol) {
+		
+		if(!roles.contains(rol)) {
+			
+			roles.add(rol);
+			rol.add(this); 
+		}
+	}
+	
+	
+	
 
+	public List<Rol> getRoles() {
+		return roles;
+	}
+
+	public void setRoles(List<Rol> roles) {
+		this.roles = roles;
+	}
 
 
 	public String getUser() {
