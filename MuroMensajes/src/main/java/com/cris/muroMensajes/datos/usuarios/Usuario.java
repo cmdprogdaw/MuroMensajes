@@ -2,14 +2,21 @@ package com.cris.muroMensajes.datos.usuarios;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.HashSet;
 import java.util.List;
+import java.util.ListIterator;
+import java.util.Set;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import com.cris.muroMensajes.datos.roles.Rol;
@@ -18,7 +25,7 @@ import com.cris.muroMensajes.datos.roles.Rol;
 public class Usuario implements UserDetails{
 
 	@Id
-	private String user;
+	private String usuario;
 	
 	@Column
 	private String password;
@@ -37,17 +44,41 @@ public class Usuario implements UserDetails{
 
 	
 	
-	@ManyToMany
-	private List<Rol> roles = new ArrayList<Rol>();
+	@ManyToMany(fetch=FetchType.EAGER) //carga todas las relaciones
+	@JoinTable(name = "permisos", //la tabla que hace join se llama permisos
+			  joinColumns = @JoinColumn(name = "FK_usuarios"),  //la tabla en mi lado
+			  inverseJoinColumns = @JoinColumn(name = "FK_roles"))
+	private List<Rol> roles = new ArrayList<Rol>();	
 	
-	public void addRoles(Rol rol) {
+	
+	
+	
+	
+	private boolean estaUnRol(String unRol) {
 		
-		if(!roles.contains(rol)) {
+		boolean esta = false;
+		ListIterator<Rol>  it = roles.listIterator();
+		while((it.hasNext())&&(!esta)) {
+			
+			Rol rol = it.next();
+			if(rol.getRol().matches(unRol)) esta = true;
+		}
+		return esta;
+	}
+	
+	
+	public void addRol(String unRol) {
+		
+		if(!estaUnRol(unRol)) {
+			
+			Rol rol = new Rol();
+			rol.setRol(unRol);
+			rol.addUsuario(this);
 			
 			roles.add(rol);
-			rol.add(this); 
 		}
 	}
+	
 	
 	
 	
@@ -61,13 +92,17 @@ public class Usuario implements UserDetails{
 	}
 
 
-	public String getUser() {
-		return user;
+	
+
+	public String getUsuario() {
+		return usuario;
 	}
 
-	public void setUser(String user) {
-		this.user = user;
+
+	public void setUsuario(String usuario) {
+		this.usuario = usuario;
 	}
+
 
 	public String getPassword() {
 		return password;
@@ -114,12 +149,19 @@ public class Usuario implements UserDetails{
 	
 	@Override
 	public Collection<? extends GrantedAuthority> getAuthorities() {
-		return null;
+
+		List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
+	    for (Rol rol : roles){
+	        grantedAuthorities.add(new SimpleGrantedAuthority(rol.getRol()));
+	    }
+	    
+	    return grantedAuthorities;
+		
 	}
 
 	@Override
 	public String getUsername() {
-		return this.user;
+		return this.usuario;
 	}
 
 	@Override

@@ -4,7 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 
 import com.cris.muroMensajes.datos.usuarios.Usuario;
@@ -13,30 +16,37 @@ import com.cris.muroMensajes.datos.usuarios.Usuario;
 public class Rol {
 
 	@Id
-	private String nombre;
+	private String rol;
 	
 	
-	@ManyToMany(mappedBy="roles")
+	@ManyToMany(fetch=FetchType.EAGER)
+	@JoinTable(	name = "permisos",
+	  			joinColumns = @JoinColumn(name = "FK_roles"), 
+	  			inverseJoinColumns = @JoinColumn(name = "FK_usuarios"))
 	private List<Usuario> usuarios = new ArrayList<Usuario>();
+
 	
-	public void add(Usuario usuario) {
+	
+	
+	public void addUsuario(Usuario usuario) {
 
 		if(!usuarios.contains(usuario)) {
 			
 			usuarios.add(usuario);
-			usuario.addRoles(this);
 		}
-		
-	}
+	}	
 
 	
-	public String getNombre() {
-		return nombre;
+	
+
+
+	public String getRol() {
+		return rol;
 	}
 
 
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
+	public void setRol(String rol) {
+		this.rol = rol;
 	}
 
 

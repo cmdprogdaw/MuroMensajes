@@ -23,8 +23,8 @@
 
   <!-- Header -->
   <header class="masthead">
-    <div class="container">
-      <div class="intro-text col-8">
+    <div class="row p-5">
+      <div class="col-8">
         
         <div class="mb-5"> <!--  mis datos -->
 			<div th:switch="${#lists.isEmpty(usuarios)}">
@@ -32,17 +32,31 @@
 			  		<p>No hay nadie</p>
 			  </div>
 			  <div id="hayMensajes" th:case="false">
-				    <table class="table table-dark table-hover table-sm ">
-				      <tr>
+				    <table class="table table-hover table-sm ">
+				      <tr class="thead-dark">
 				        <th>Usuario</th>
 				        <th>Nombre</th>
 				        <th>Apellidos</th>
+				        <th>Permisos</th>
+				        <th></th>
+				        <th></th>
 				      </tr>
-				      <tr th:each="usuario: ${usuarios}">
-				        <td th:text="${usuario.user}"></td>
-				        <td th:text="${usuario.nombre}"></td>
-				        <td th:text="${usuario.apellidos}"></td>
-				        <td><a type="button" class="btn btn-danger btn-sm" th:href="@{/usuarios/borrar/{id}(id=${usuario.id})}">Eliminar</a></td>
+				      <tr th:each="user: ${usuarios}">
+				        <td th:text="${user.usuario}"></td>
+				        <td th:text="${user.nombre}"></td>
+				        <td th:text="${user.apellidos}"></td>
+				        <td>
+				        	<li th:remove="tag" th:each="permiso: ${user.roles}">
+							    <span th:remove="tag" 
+						        th:text="${permiso.rol}"/>
+							</li>
+				        </td>
+				        <td>
+				        	<a type="button" class="btn btn-primary btn-sm" th:href="@{/usuarios/editar/{id}(id=${user.usuario})}">Editar</a>
+						</td>
+				        <td>
+				        	<a type="button" class="btn btn-danger btn-sm" th:href="@{/usuarios/borrar/{id}(id=${user.usuario})}">Eliminar</a>
+				        </td>
 				      </tr>
 				    </table>
 			  </div>
@@ -50,9 +64,9 @@
         </div><!--  fin de mis datos -->
         
       </div>
-      <div class="col-2 float-right">
+      <div class="col-3 float-right">
         <div class="p-5">
-			<button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#crearUsuario" >
+			<button type="button" class="btn btn-primary float-right" data-toggle="modal" data-target="#crearMensaje" >
 				Nuevo usuario
 			</button>
         </div>
@@ -60,55 +74,67 @@
     </div>
   </header>
 
+
+
+
   		<!-- Añadir carpeta modal -->
-		  <div class="modal fade" id="crearUsuario" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
+		  <div class="modal fade" id="crearMensaje" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel" aria-hidden="true">
 		    <div class="modal-dialog" role="document">
 		      <div class="modal-content">
 		        <div class="modal-header">
-		          <h4 class="modal-title" id="exampleModalLabel">Nuevo usuario</h4>
+		          <h4 class="modal-title" id="exampleModalLabel">Nuevo mensaje</h4>
 		          <button class="close" type="button" data-dismiss="modal" aria-label="Close">
 		            <span aria-hidden="true">×</span>
 		          </button>
 		        </div>
 
-                <form action="#" th:action="@{/usuarios/anadir}" th:object="${usuario}" method="post">
+                <form action="#" th:action="@{/usuarios/anadir}" th:object="${user}" method="post">
 			        <div class="modal-body">
 			        
-						  <div class="form-row">
-						    <div class="form-group col-md-12">
-						      <label for="user">Usuario</label>
-						      <input type="text" th:field="*{user}"  placeholder="Nombre de usuario" class="form-control" id="user">
-						    </div>
-						    <div class="form-group col-md-12">
-						      <label for="pass">Contraseña</label>
-						      <input type="text" th:field="*{password}"  placeholder="Contraseña" class="form-control" id="pass">
-						    </div>
-						    <div class="form-group col-md-12">
-						      <label for="nombre">Nombre</label>
-						      <input type="text" th:field="*{nombre}"  placeholder="inserta un texto" class="form-control" id="nombre">
-						    </div>
-						    <div class="form-group col-md-12">
-						      <label for="apellidos">Apellidos</label>
-						      <input type="text" th:field="*{apellidos}"  placeholder="inserta un texto" class="form-control" id="apellidos">
-						    </div>
-						    <div class="form-group col-md-12">
-						      <label for="email">Email</label>
-						      <input type="text" th:field="*{email}"  placeholder="inserta un texto" class="form-control" id="email">
-						    </div>
-						    <div class="form-group col-md-12">
-						      <label for="tel">Telefono</label>
-						      <input type="text" th:field="*{telefono}"  placeholder="inserta un texto" class="form-control" id="tel">
-						    </div>
-						<!--<div class="form-group col-md-12">
-						      <label th:for="${#ids.next('covered')}" th:text="#{seedstarter.covered}">Covered</label>
-  							  <input type="checkbox" th:field="*{covered}" />
-						    </div>
-						    <div class="form-group col-md-12">
-						      <label for="tel">Telefono</label>
-						      <input type="text" th:field="*{telefono}"  placeholder="inserta un texto" class="form-control" id="tel">
-						    </div>
-						 -->
-		                  </div>
+					  <div class="form-row">
+					    <div class="form-group col-md-12">
+					      <label for="texto">Usuario</label>
+					      <input type="text" th:field="*{usuario}"  placeholder="inserta un texto" class="form-control" id="texto">
+					    </div>
+	                  </div>
+			        
+					  <div class="form-row">
+					    <div class="form-group col-md-12">
+					      <label for="texto">Password</label>
+					      <input type="text" th:field="*{password}"  placeholder="inserta un texto" class="form-control" id="texto">
+					    </div>
+	                  </div>
+			        
+					  <div class="form-row">
+					    <div class="form-group col-md-12">
+					      <label for="texto">Nombre</label>
+					      <input type="text" th:field="*{nombre}"  placeholder="inserta un texto" class="form-control" id="texto">
+					    </div>
+	                  </div>
+			        
+					  <div class="form-row">
+					    <div class="form-group col-md-12">
+					      <label for="texto">Apellidos</label>
+					      <input type="text" th:field="*{apellidos}"  placeholder="inserta un texto" class="form-control" id="texto">
+					    </div>
+	                  </div>
+	                  
+					  <div class="form-row">
+					    <div class="form-group col-md-12">
+					      <label for="texto">Permisos</label>
+							<ul>
+							  <li th:each="permiso: ${roles}">
+							    <input type="checkbox" 
+							        th:field="*{roles}" 
+							        th:value="${permiso.rol}"  
+							        th:text="${permiso.rol}"/>
+					        
+							  </li>
+							</ul>					      
+						  </div>
+	                  </div>	                  
+
+
 			        </div>
 			        <div class="modal-footer">
 		                <input type="submit" value="Añadir" class="btn btn-primary float-right">
@@ -118,6 +144,8 @@
 		      </div>
 		    </div>
 		  </div>
+
+		<!-- Añadir carpeta modal -->
 
 
 
