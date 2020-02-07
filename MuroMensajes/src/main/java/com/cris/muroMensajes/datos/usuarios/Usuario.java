@@ -14,12 +14,13 @@ import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.ManyToOne;
 
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.cris.muroMensajes.datos.roles.Rol;
+import com.cris.muroMensajes.roles.Rol;
 
 @Entity
 public class Usuario implements UserDetails{
@@ -38,61 +39,23 @@ public class Usuario implements UserDetails{
 	
 	@Column
 	private String email;
-	
-	@Column
-	private Integer telefono;
 
 	
-	
-	@ManyToMany(fetch=FetchType.EAGER) //carga todas las relaciones
-	@JoinTable(name = "permisos", //la tabla que hace join se llama permisos
-			  joinColumns = @JoinColumn(name = "FK_usuarios"),  //la tabla en mi lado
-			  inverseJoinColumns = @JoinColumn(name = "FK_roles"))
-	private List<Rol> roles = new ArrayList<Rol>();	
-	
-	
-	
-	
-	
-	private boolean estaUnRol(String unRol) {
-		
-		boolean esta = false;
-		ListIterator<Rol>  it = roles.listIterator();
-		while((it.hasNext())&&(!esta)) {
-			
-			Rol rol = it.next();
-			if(rol.getRol().matches(unRol)) esta = true;
-		}
-		return esta;
-	}
-	
-	
-	public void addRol(String unRol) {
-		
-		if(!estaUnRol(unRol)) {
-			
-			Rol rol = new Rol();
-			rol.setRol(unRol);
-			rol.addUsuario(this);
-			
-			roles.add(rol);
-		}
-	}
-	
-	
+	@ManyToOne
+	private Rol rol = new Rol();	
 	
 	
 
-	public List<Rol> getRoles() {
-		return roles;
-	}
 
-	public void setRoles(List<Rol> roles) {
-		this.roles = roles;
+	public Rol getRol() {
+		return rol;
 	}
 
 
-	
+	public void setRol(Rol rol) {
+		this.rol = rol;
+	}
+
 
 	public String getUsuario() {
 		return usuario;
@@ -136,13 +99,6 @@ public class Usuario implements UserDetails{
 		this.email = email;
 	}
 
-	public Integer getTelefono() {
-		return telefono;
-	}
-
-	public void setTelefono(Integer telefono) {
-		this.telefono = telefono;
-	}
 
 	
 	
@@ -151,12 +107,9 @@ public class Usuario implements UserDetails{
 	public Collection<? extends GrantedAuthority> getAuthorities() {
 
 		List<GrantedAuthority> grantedAuthorities = new ArrayList<>();
-	    for (Rol rol : roles){
-	        grantedAuthorities.add(new SimpleGrantedAuthority(rol.getRol()));
-	    }
-	    
+	    grantedAuthorities.add(new SimpleGrantedAuthority(rol.getNombre()));
+	    	    
 	    return grantedAuthorities;
-		
 	}
 
 	@Override

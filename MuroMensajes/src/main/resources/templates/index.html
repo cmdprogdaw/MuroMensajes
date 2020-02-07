@@ -25,13 +25,32 @@
 
   <!-- Header -->
   <header class="masthead">
+  
+  
   	<div sec:authorize="isAuthenticated()">
+  	
     	User: <span sec:authentication="name">miquel</span>
+    	
 	</div>
+	
+	
 	
 	<ul class="nav-item" sec:authorize="hasAnyAuthority('ADMIN')">
 		<li>TIENES SUPERVISION ADMIN</li>
 	</ul>	
+	
+	
+	<ul class="nav-item" sec:authorize="hasAnyAuthority('MODERADOR')">
+		<li>ESPERO QUE MODERES BIEN</li>
+	</ul>	
+	
+	
+	
+	
+	
+	
+	
+	
     <div class="row p-5">
       <div class="col-6">
 			<button type="button">

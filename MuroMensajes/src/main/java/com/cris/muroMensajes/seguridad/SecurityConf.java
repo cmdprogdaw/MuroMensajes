@@ -11,7 +11,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import com.cris.muroMensajes.servicios.Autenticacion;
 
 @Configuration
-@EnableWebSecurity(debug=true)
+@EnableWebSecurity
 public class SecurityConf extends WebSecurityConfigurerAdapter{
 
 	

@@ -11,18 +11,21 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.cris.muroMensajes.datos.roles.Rol;
-import com.cris.muroMensajes.datos.roles.RolDAO;
+import com.cris.muroMensajes.roles.Rol;
+import com.cris.muroMensajes.roles.RolDAO;
+
+
 
 
 @Controller
 public class UsuarioRutas {
-
-	@Autowired
-	private UsuarioDAO usuarioDAO;
 	
 	@Autowired
-	private RolDAO rolDAO;
+	private UsuarioDAO usuarioDAO;
+
+	@Autowired
+	private RolDAO rolDAO;	
+	
 	
 	
 	@GetMapping("/usuarios")
@@ -54,7 +57,16 @@ public class UsuarioRutas {
 		return "redirect:/usuarios";
 	}
 	
+
 	
+	@PostMapping("/usuarios/editar")
+	public String usuariosEditar(@ModelAttribute Usuario usuario) {
+		
+
+		usuarioDAO.save(usuario);
+		
+		return "redirect:/usuarios";
+	}	
 
 	
 	@GetMapping("/usuarios/editar/{id}")
@@ -73,6 +85,9 @@ public class UsuarioRutas {
 	}	
 	
 
+	
+	
+	
 
 	@GetMapping("/usuarios/borrar/{id}")
 	public String usuariosBorrar(@PathVariable String id) {
@@ -81,4 +96,7 @@ public class UsuarioRutas {
 		
 		return "redirect:/usuarios";
 	}
+	
+	
+	
 }

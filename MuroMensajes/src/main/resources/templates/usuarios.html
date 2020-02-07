@@ -25,7 +25,7 @@
   <header class="masthead">
     <div class="row p-5">
       <div class="col-8">
-        
+        <a type="button" class="btn btn-danger btn-sm mb-5" th:href="@{/logout}">Logout <span th:text="${#authentication.name}"></span></a>
         <div class="mb-5"> <!--  mis datos -->
 			<div th:switch="${#lists.isEmpty(usuarios)}">
 			  <div id="noHayNadie" th:case="true">
@@ -45,14 +45,11 @@
 				        <td th:text="${user.usuario}"></td>
 				        <td th:text="${user.nombre}"></td>
 				        <td th:text="${user.apellidos}"></td>
-				        <td>
-				        	<li th:remove="tag" th:each="permiso: ${user.roles}">
-							    <span th:remove="tag" 
-						        th:text="${permiso.rol}"/>
-							</li>
-				        </td>
-				        <td>
-				        	<a type="button" class="btn btn-primary btn-sm" th:href="@{/usuarios/editar/{id}(id=${user.usuario})}">Editar</a>
+				        <td th:text="${user.rol.nombre}"></td>
+				        <td >
+				        	<span th:if="(${#authorization.expression('hasAuthority(''ADMIN'')')}) or (${#authentication.name} == ${user.usuario})">
+					        	<a type="button" class="btn btn-primary btn-sm" th:href="@{/usuarios/editar/{id}(id=${user.usuario})}">Editar</a>
+							</span>
 						</td>
 				        <td>
 				        	<a type="button" class="btn btn-danger btn-sm" th:href="@{/usuarios/borrar/{id}(id=${user.usuario})}">Eliminar</a>
@@ -124,15 +121,17 @@
 					      <label for="texto">Permisos</label>
 							<ul>
 							  <li th:each="permiso: ${roles}">
-							    <input type="checkbox" 
-							        th:field="*{roles}" 
-							        th:value="${permiso.rol}"  
-							        th:text="${permiso.rol}"/>
-					        
+							    <input 
+							    	type="radio" 
+							    	name="permisos" 
+							        th:text="${permiso.nombre}"
+							        th:field="*{rol.nombre}"
+							        th:value="${permiso.nombre}"
+							    />
 							  </li>
 							</ul>					      
 						  </div>
-	                  </div>	                  
+	                  </div>	  	                  
 
 
 			        </div>
