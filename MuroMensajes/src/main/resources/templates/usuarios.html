@@ -46,7 +46,7 @@
 				        <td th:text="${user.nombre}"></td>
 				        <td th:text="${user.apellidos}"></td>
 				        <td th:text="${user.rol.nombre}"></td>
-				        <td >
+				        <td >									<!-- ('hasAnyAuthority(''ADMIN'', ''MODERADOR'')')}) -->
 				        	<span th:if="(${#authorization.expression('hasAuthority(''ADMIN'')')}) or (${#authentication.name} == ${user.usuario})">
 					        	<a type="button" class="btn btn-primary btn-sm" th:href="@{/usuarios/editar/{id}(id=${user.usuario})}">Editar</a>
 							</span>
