@@ -1,22 +1,29 @@
 package com.cris.muroMensajes;
 
-import java.util.List;
-
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 @Controller
-public class RutaInicial {
+public class RutasGenericas {
 
 	@GetMapping("/")
 	public String rutaInicial(Authentication authentication) {
 		
-		System.out.println(authentication.isAuthenticated());
-		System.out.println(authentication.getName());
-		List<GrantedAuthority> permisos = (List<GrantedAuthority>)authentication.getAuthorities();
-		
 		return "index";
+	}
+	
+	
+	@GetMapping("/login")
+	public String seguridad() {
+		
+		return "start";
+	}
+	
+	
+	@GetMapping("/logout")
+	public String finalizar(Authentication authentication) {
+		
+		return "ok";
 	}
 }
