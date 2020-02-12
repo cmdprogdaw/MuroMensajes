@@ -23,6 +23,13 @@
 
   <!-- Header -->
   <header class="masthead">
+  
+  	<div th:if="${session.carrito}">
+		<p th:text="${session.carrito.contenido}"></p>
+	</div>
+	
+	<button class="btn btn-warning">Añadir al carrito</button>
+  
     <div class="row p-5">
       <div class="col-8">
         <a type="button" class="btn btn-danger btn-sm mb-5" th:href="@{/logout}">Logout <span th:text="${#authentication.name}"></span></a>

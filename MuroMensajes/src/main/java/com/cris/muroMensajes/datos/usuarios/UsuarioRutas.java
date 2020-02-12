@@ -2,6 +2,8 @@ package com.cris.muroMensajes.datos.usuarios;
 
 import java.util.List;
 
+import javax.servlet.http.HttpSession;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -13,6 +15,7 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.cris.muroMensajes.roles.Rol;
 import com.cris.muroMensajes.roles.RolDAO;
+import com.cris.muroMensajes.sesiones.Carrito;
 
 
 
@@ -29,7 +32,14 @@ public class UsuarioRutas {
 	
 	
 	@GetMapping("/usuarios")
-	public ModelAndView todosLosUsuarios() {
+	public ModelAndView todosLosUsuarios(HttpSession sesion) {
+		
+		Carrito carrito = (Carrito)sesion.getAttribute("carrito");
+		if(carrito!=null) {
+			carrito.setContenido("Tengo un producto");
+			sesion.setAttribute("carrito", carrito);	
+		}
+		
 		
 		ModelAndView mav = new ModelAndView();
 		mav.setViewName("usuarios");

@@ -28,11 +28,12 @@
   
   
   	<div sec:authorize="isAuthenticated()">
-  	
     	User: <span sec:authentication="name">miquel</span>
-    	
 	</div>
 	
+	<div th:if="${session.carrito}">
+		<p th:text="${session.carrito.contenido}"></p>
+	</div>
 	
 	
 	<ul class="nav-item" sec:authorize="hasAnyAuthority('ADMIN')">

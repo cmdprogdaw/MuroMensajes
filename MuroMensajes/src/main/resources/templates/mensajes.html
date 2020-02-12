@@ -23,6 +23,11 @@
 
   <!-- Header -->
   <header class="masthead">
+  
+  	<div th:if="${session.carrito}">
+		<p th:text="${session.carrito.contenido}"></p>
+	</div>
+	
     <div class="container">
       <div class="intro-text col-8">
         
