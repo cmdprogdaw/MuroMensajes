@@ -6,7 +6,7 @@
   	<meta charset="utf-8">
   	<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
   	<meta name="description" content="Una web preciosa y maravillosa">
-  	<meta name="author" content="Cris">
+  	<meta name="author" content="Marcos Fernandez">
 
   	<title>Mensajes</title>
   
@@ -32,9 +32,8 @@
 	</div>
 	
 	<div th:if="${session.carrito}">
-		<p th:text="${session.carrito.contenido}"></p>
+    	<p>Tienes <span th:remove="tag" th:text="${session.carrito.productos}"></span> producto(s)</p>
 	</div>
-	
 	
 	<ul class="nav-item" sec:authorize="hasAnyAuthority('ADMIN')">
 		<li>TIENES SUPERVISION ADMIN</li>
@@ -54,14 +53,10 @@
 	
     <div class="row p-5">
       <div class="col-6">
-			<button class="btn btn-primary btn-sm" type="button">
-				<a class="text-white" href="/usuarios">Usuarios</a>
-			</button>
+			<a type="button" class="btn btn-primary btn-sm" href="/usuarios">Usuarios</a>
       </div>
       <div class="col-6 float-right">
-			<button class="btn btn-danger btn-sm" type="button">
-				<a class="text-white" href="/mensajes">Mensajes</a>
-			</button>
+			<a type="button" class="btn btn-danger btn-sm" href="/mensajes">Mensajes</a>
       </div> 
     </div>
   </header>
@@ -72,3 +67,6 @@
 </body>
 
 </html>
+
+
+

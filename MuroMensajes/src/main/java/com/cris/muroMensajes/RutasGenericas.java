@@ -17,6 +17,17 @@ public class RutasGenericas {
 		return "index";
 	}
 	
+	@GetMapping("/addCarrito")
+	public String carrito(HttpSession sesion) {
+		
+		Carrito carrito = (Carrito)sesion.getAttribute("carrito");
+		if(carrito!=null) {
+			carrito.addProducto();
+			//sesion.setAttribute("carrito", carrito);
+		}
+		
+		return "redirect:/";
+	}	
 	
 	@GetMapping("/login")
 	public String seguridad(HttpSession sesion) {

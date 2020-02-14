@@ -5,6 +5,8 @@ import java.util.List;
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,7 +17,6 @@ import org.springframework.web.servlet.ModelAndView;
 
 import com.cris.muroMensajes.roles.Rol;
 import com.cris.muroMensajes.roles.RolDAO;
-import com.cris.muroMensajes.sesiones.Carrito;
 
 
 
@@ -29,16 +30,13 @@ public class UsuarioRutas {
 	@Autowired
 	private RolDAO rolDAO;	
 	
+//	@Resource(name = "carrito")
+//    private Carrito carrito;
+	
 	
 	
 	@GetMapping("/usuarios")
 	public ModelAndView todosLosUsuarios(HttpSession sesion) {
-		
-		Carrito carrito = (Carrito)sesion.getAttribute("carrito");
-		if(carrito!=null) {
-			carrito.setContenido("Tengo un producto");
-			sesion.setAttribute("carrito", carrito);	
-		}
 		
 		
 		ModelAndView mav = new ModelAndView();
@@ -51,6 +49,7 @@ public class UsuarioRutas {
 		List<Rol> listaRoles = (List<Rol>)rolDAO.findAll();
 		mav.addObject("roles",listaRoles);
 
+		
 		return mav;
 	}
 	
@@ -80,7 +79,24 @@ public class UsuarioRutas {
 
 	
 	@GetMapping("/usuarios/editar/{id}")
-	public ModelAndView usuariosEditar(@PathVariable String id) {
+	public ModelAndView usuariosEditar(@PathVariable String id, Authentication authentication) {
+		
+		
+		
+		
+		String quien = authentication.getName();
+		List<GrantedAuthority> grantedAuthorities = (List<GrantedAuthority>)authentication.getAuthorities();
+		System.out.println(grantedAuthorities);
+		
+		if(!quien.equalsIgnoreCase(id)) {
+			
+			ModelAndView mav = new ModelAndView();
+			mav.setViewName("redirect:/usuarios");
+			
+			return mav;
+		}
+		
+		
 		
 		Usuario user = usuarioDAO.findById(id).get();
 		
