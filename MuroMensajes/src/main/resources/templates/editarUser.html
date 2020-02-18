@@ -49,15 +49,28 @@
 			    <div class="form-group col-md-12">
 			      <label for="texto">Nombre</label>
 			      <input type="text" th:field="*{nombre}"  placeholder="inserta un texto" class="form-control" id="texto">
+			      <ul>
+			      	<li th:each="err : ${#fields.errors('nombre')}" th:text="${err}">
+			      </ul>
 			    </div>
-                 </div>
+              </div>
 	        
 			  <div class="form-row">
 			    <div class="form-group col-md-12">
 			      <label for="texto">Apellidos</label>
 			      <input type="text" th:field="*{apellidos}"  placeholder="inserta un texto" class="form-control" id="texto">
 			    </div>
-                 </div>
+              </div>
+                 
+              <div class="form-row">
+			    <div class="form-group col-md-12">
+			      <label for="texto">Email</label>
+			      <input type="text" required th:field="*{email}"  placeholder="inserta un texto" class="form-control" id="texto">
+				<ul>
+				  <li th:each="err : ${#fields.errors('email')}" th:text="${err}" />
+				</ul>
+			    </div>
+              </div>  
                  
 			  <div class="form-row">
 			    <div class="form-group col-md-12">

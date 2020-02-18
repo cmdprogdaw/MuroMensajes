@@ -3,12 +3,14 @@ package com.cris.muroMensajes.datos.usuarios;
 import java.util.List;
 
 import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -69,12 +71,26 @@ public class UsuarioRutas {
 
 	
 	@PostMapping("/usuarios/editar")
-	public String usuariosEditar(@ModelAttribute Usuario usuario) {
-		
+	public ModelAndView usuariosEditar(
+			
+			@Valid @ModelAttribute("user") Usuario usuario,
+			BindingResult bindingResult) {
 
-		usuarioDAO.save(usuario);
+		ModelAndView mav = new ModelAndView();
 		
-		return "redirect:/usuarios";
+		if(bindingResult.hasErrors()) {
+			
+			mav.setViewName("editarUser");
+			
+			List<Rol> listaRoles = (List<Rol>)rolDAO.findAll();
+			mav.addObject("roles",listaRoles);
+			
+			return mav;
+		}
+		
+		usuarioDAO.save(usuario);
+		mav.setViewName("redirect:/usuarios");
+		return mav;
 	}	
 
 	
