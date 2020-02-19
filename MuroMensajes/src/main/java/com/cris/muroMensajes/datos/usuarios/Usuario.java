@@ -7,6 +7,8 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.PostUpdate;
+import javax.persistence.PreUpdate;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Pattern;
 import javax.validation.constraints.Size;
@@ -16,14 +18,10 @@ import org.springframework.security.core.userdetails.UserDetails;
 
 import com.cris.muroMensajes.roles.Rol;
 
-
-
 @Entity
 public class Usuario implements UserDetails  {
 
 	
-
-
 	@Id
 	private String usuario;
 	
@@ -43,20 +41,41 @@ public class Usuario implements UserDetails  {
 	@Pattern(regexp="[A-Za-z0-9._-]+@[A-Za-z.]+",message="email invalido")
 	private String email;
 
+	@Column
+	private Integer edad;
+	
+	
 	@ManyToOne
 	private Rol rol = new Rol();	
 	
 	
 	
-
+	
+	@PreUpdate
+	public void antesDeUpdate() {
+		
+		System.out.println(this);
+	}
+	
+	
+	@PostUpdate
+	public void despuesDeUpdate() {
+		
+		System.out.println(this);
+	}
+	
+	
+	
+	
 	
 	public Rol getRol() {
 		return rol;
 	}
 
-	public void setRoles(Rol rol) {
+	public void setRol(Rol rol) {
 		this.rol = rol;
 	}
+
 
 	public String getUsuario() {
 		return usuario;
@@ -98,8 +117,14 @@ public class Usuario implements UserDetails  {
 		this.email = email;
 	}
 
-	
-	
+	public Integer getEdad() {
+		return edad;
+	}
+
+	public void setEdad(Integer edad) {
+		this.edad = edad;
+	}
+
 	
 	
 	@Override
@@ -137,11 +162,11 @@ public class Usuario implements UserDetails  {
 		return true;
 	}
 
-
-
 	
-
-	
+	@Override
+	public String toString() {
+		return "[usuario=" + usuario + ", edad=" + edad + "]";
+	}
 	
 	
 }

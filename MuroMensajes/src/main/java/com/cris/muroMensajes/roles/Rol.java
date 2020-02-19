@@ -3,6 +3,7 @@ package com.cris.muroMensajes.roles;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.annotation.PreDestroy;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.Id;
@@ -10,12 +11,8 @@ import javax.persistence.OneToMany;
 
 import com.cris.muroMensajes.datos.usuarios.Usuario;
 
-
-
-
 @Entity
 public class Rol   {
-
 	
 	@Id
 	private String nombre = "USER";
@@ -25,6 +22,29 @@ public class Rol   {
 	private List<Usuario> usuarios = new ArrayList<Usuario>();
 
 	
+/*
+	@PreUpdate
+	@PostUpdate
+	@PreDestroy 
+	@PrePersist
+	@PostPersist
+	 
+	
+	//antes de que se borre el rol, ejecuta esto
+	@PreDestroy
+	public void reasignarRolesUsuario() {
+		
+		//recorrer la lista de usuarios reasignando los roles
+		for(Usuario user: usuarios) {		
+			
+			user.setRoles(null);
+		}
+		
+		//tambien vale esta otra forma
+		//usuarios.forEach(user->user.setRoles(null));
+		 
+	}
+*/
 	
 	
 	public void addUsuario(Usuario usuario) {

@@ -28,7 +28,7 @@
     <div class="row p-5">
       <div class="col-8">
  
-          <form action="#" th:action="@{/usuarios/anadir}" th:object="${user}" method="post">
+          <form action="#" th:action="@{/usuarios/editar}" th:object="${user}" method="post">
 	        <div class="modal-body">
 	        
 			  <div class="form-row">
@@ -41,28 +41,27 @@
 			  <div class="form-row">
 			    <div class="form-group col-md-12">
 			      <label for="texto">Password</label>
-			      <input type="hidden" th:field="*{password}"  placeholder="inserta un texto" class="form-control" id="texto">
 			    </div>
                  </div>
 	        
 			  <div class="form-row">
 			    <div class="form-group col-md-12">
 			      <label for="texto">Nombre</label>
-			      <input type="text" th:field="*{nombre}"  placeholder="inserta un texto" class="form-control" id="texto">
-			      <ul>
-			      	<li th:each="err : ${#fields.errors('nombre')}" th:text="${err}">
-			      </ul>
+			      <input type="text" required th:field="*{nombre}"  placeholder="inserta un texto" class="form-control" id="texto">
+				<ul>
+				  <li th:each="err : ${#fields.errors('nombre')}" th:text="${err}" />
+				</ul>
 			    </div>
-              </div>
+                 </div>
 	        
 			  <div class="form-row">
 			    <div class="form-group col-md-12">
 			      <label for="texto">Apellidos</label>
 			      <input type="text" th:field="*{apellidos}"  placeholder="inserta un texto" class="form-control" id="texto">
 			    </div>
-              </div>
+                 </div>
                  
-              <div class="form-row">
+			  <div class="form-row">
 			    <div class="form-group col-md-12">
 			      <label for="texto">Email</label>
 			      <input type="text" required th:field="*{email}"  placeholder="inserta un texto" class="form-control" id="texto">
@@ -70,29 +69,49 @@
 				  <li th:each="err : ${#fields.errors('email')}" th:text="${err}" />
 				</ul>
 			    </div>
-              </div>  
+                 </div>                 
                  
-			  <div class="form-row">
+			  <div th:if=" (${#authorization.expression('hasAnyAuthority(''ADMIN'',''MODERADOR'')')})" class="form-row">
 			    <div class="form-group col-md-12">
 			      <label for="texto">Permisos</label>
-   				    
-					<div th:each="roles: ${roles}">
-						<input type="checkbox" 
-								th:id="${{roles}}" 
-								th:value="${{roles}}" 
-								th:field="*{roles}" />
-						
-						<label th:for="${{roles}}" th:text="${roles.rol}">Cinema</label>
-					</div>
+					<ul>
+					  <li th:each="permiso: ${roles}">
+					    <input 
+					    	type="radio" 
+					    	name="permisos" 
+					        th:text="${permiso.nombre}"
+					        th:field="*{rol.nombre}"
+					        th:value="${permiso.nombre}"
+					    />
+					  </li>
+					</ul>
 				  </div>
                  </div>	                  
 
 
+			<div th:if=" (${#authorization.expression('hasAnyAuthority(''USER'')')})" class="form-row">
+			    <div class="form-group col-md-12">
+			      <label for="texto">Permisos</label>
+					<ul>
+					  <li th:each="permiso: ${roles}">
+					    <input 
+					    	type="radio" 
+					    	disabled 
+					    	name="permisos" 
+					        th:text="${permiso.nombre}"
+					        th:field="*{rol.nombre}"
+					        th:value="${permiso.nombre}"
+					    />
+					  </li>
+					</ul>
+				  </div>
+                 </div>	    
+
 	        </div>
 	        <div class="modal-footer">
-                <input type="submit" value="Añadir" class="btn btn-primary float-right">
-                <button data-dismiss="modal" class="btn btn-outline-danger float-right mr-2">Cancelar</button>
-	        </div>
+                <input type="submit" value="Guardar" class="btn btn-primary float-right">
+				<a type="button" class="btn btn-danger" th:href="@{/usuarios}">Cancelar</a>
+        	 </div>
            </form>
       
          

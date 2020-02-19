@@ -20,9 +20,6 @@ import org.springframework.web.servlet.ModelAndView;
 import com.cris.muroMensajes.roles.Rol;
 import com.cris.muroMensajes.roles.RolDAO;
 
-
-
-
 @Controller
 public class UsuarioRutas {
 	
@@ -32,9 +29,55 @@ public class UsuarioRutas {
 	@Autowired
 	private RolDAO rolDAO;	
 	
-//	@Resource(name = "carrito")
-//    private Carrito carrito;
+
 	
+	@GetMapping("/consultas")
+	public String consultas() {
+		
+        /******* IMPORTANTE PARA MI PROYECTO *********/
+		//filtro edad
+		List<Usuario> resultado = (List<Usuario>)usuarioDAO.findByEdad(10);
+		
+		//filtro edad menor que
+		//List<Usuario> resultado = (List<Usuario>)usuarioDAO.findByEdadLessThan(30);
+		
+		//filtro edad menor o igual que
+		//List<Usuario> resultado = (List<Usuario>)usuarioDAO.findByEdadLessThanEqual(30);
+		
+		//edad y usuario
+		//List<Usuario> resultado = (List<Usuario>)usuarioDAO.findByEdadAndUsuario(10, "cris");
+		
+		//edad o usuario
+		//List<Usuario> resultado = (List<Usuario>)usuarioDAO.findByEdadOrUsuario(10, "nata");
+		
+		
+		//busca por usuario que el nombre tenga dentro esa cadena
+		//List<Usuario> resultado = (List<Usuario>)usuarioDAO.findByUsuarioContaining("a");
+		
+		//termina por esa cadena
+		//List<Usuario> resultado = (List<Usuario>)usuarioDAO.findByUsuarioEndsWith("a");
+		
+		//termina por esa cadena
+		//List<Usuario> resultado = (List<Usuario>)usuarioDAO.findByUsuarioStartsWith("r");
+		
+		
+		//da como mucho los 2 que encuentre por esa edad 
+		//List<Usuario> resultado = (List<Usuario>)usuarioDAO.findTop2ByEdad(30);
+		
+		//da los mayores de esa edad 
+		//List<Usuario> resultado = (List<Usuario>)usuarioDAO.findByEdadGreaterThan(10);
+		
+		//da como mucho los 2 que encuentre mayores de esa edad 
+		//List<Usuario> resultado = (List<Usuario>)usuarioDAO.findTop2ByEdadGreaterThan(0);
+		
+		System.out.println(resultado);
+		
+		//cuenta los que tienen 10 años
+		Integer cuantos = usuarioDAO.countByEdad(10);
+		System.out.println(cuantos);
+		
+		return "redirect:/";
+	}
 	
 	
 	@GetMapping("/usuarios")

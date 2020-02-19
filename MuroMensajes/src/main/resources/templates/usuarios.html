@@ -26,9 +26,10 @@
   <!-- Header -->
   <header class="masthead">
   
-	<div th:if="${session.carrito}">
+	<div>
     	<p>Tienes <span th:remove="tag" th:text="${session.carrito.productos}"></span> producto(s)</p>
 	</div>
+
 	
     <div class="row p-5">
       <div class="col-8">
@@ -78,6 +79,7 @@
 					Nuevo usuario
 				</button>
 			</span>
+
         </div>
         <div class="p-5">
 			<a type="button" class="btn btn-secondary btn-sm" th:href="@{/addCarrito}">Añadir al carrito</a>
@@ -107,6 +109,7 @@
 					    <div class="form-group col-md-12">
 					      <label for="texto">Usuario</label>
 					      <input type="text" th:field="*{usuario}"  placeholder="inserta un texto" class="form-control" id="texto">
+					      <p th:if="${#fields.hasErrors('usuario')}" th:errors="*{usuario}">Incorrect date</p>
 					    </div>
 	                  </div>
 			        
@@ -156,6 +159,7 @@
 			        </div>
                 </form>
 		      </div>
+		      
 		    </div>
 		  </div>
 
