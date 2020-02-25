@@ -10,7 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Repository
 public interface UsuarioDAO extends CrudRepository<Usuario,String>{
-	
+	/*
 	//?1 es el primer parametro (userViejo) y ?2 el segundo (userNuevo) 
 	@Transactional @Query(value="UPDATE usuario u SET nombre='?2' WHERE u.nombre='?1", nativeQuery=true)
 	void actualizarNombreUsuario(String userViejo, String userNuevo);
@@ -25,7 +25,7 @@ public interface UsuarioDAO extends CrudRepository<Usuario,String>{
 	
 	
 	
-	/****estas operaciones devuelven una lista de usuarios que busca por (attr) es tipo filtro***/
+	/****estas operaciones devuelven una lista de usuarios que busca por (attr) es tipo filtro***
 	
 	//por edad
 	List<Usuario> findByEdad(Integer edad);
@@ -64,7 +64,8 @@ public interface UsuarioDAO extends CrudRepository<Usuario,String>{
 	
 	
 	
-	/**********************/
+	/**********************
 	//cuenta los que tienen esa edad
 	Integer countByEdad(Integer edad);
+	*/
 }

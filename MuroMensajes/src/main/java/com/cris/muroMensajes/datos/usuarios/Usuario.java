@@ -7,6 +7,7 @@ import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.PostUpdate;
 import javax.persistence.PreUpdate;
 import javax.validation.constraints.NotNull;
@@ -16,6 +17,7 @@ import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import com.cris.muroMensajes.datos.mensajes.Mensaje;
 import com.cris.muroMensajes.roles.Rol;
 
 @Entity
@@ -48,7 +50,18 @@ public class Usuario implements UserDetails  {
 	@ManyToOne
 	private Rol rol = new Rol();	
 	
-	
+	@OneToMany(mappedBy="usuario")
+	private List<Mensaje> mensajes = new ArrayList<Mensaje>();
+		
+		
+		public void addEjemplares(Mensaje mensaje) {
+			
+			if(!mensajes.contains(mensaje)) {
+				
+				mensajes.add(mensaje);
+				mensaje.setUsuario(this);
+			}
+		}
 	
 	
 	@PreUpdate
@@ -68,6 +81,16 @@ public class Usuario implements UserDetails  {
 	
 	
 	
+	public List<Mensaje> getMensajes() {
+		return mensajes;
+	}
+
+
+	public void setMensajes(List<Mensaje> mensajes) {
+		this.mensajes = mensajes;
+	}
+
+
 	public Rol getRol() {
 		return rol;
 	}

@@ -36,7 +36,7 @@ public class UsuarioRutas {
 		
         /******* IMPORTANTE PARA MI PROYECTO *********/
 		//filtro edad
-		List<Usuario> resultado = (List<Usuario>)usuarioDAO.findByEdad(10);
+		//List<Usuario> resultado = (List<Usuario>)usuarioDAO.findByEdad(10);
 		
 		//filtro edad menor que
 		//List<Usuario> resultado = (List<Usuario>)usuarioDAO.findByEdadLessThan(30);
@@ -70,11 +70,11 @@ public class UsuarioRutas {
 		//da como mucho los 2 que encuentre mayores de esa edad 
 		//List<Usuario> resultado = (List<Usuario>)usuarioDAO.findTop2ByEdadGreaterThan(0);
 		
-		System.out.println(resultado);
+		//System.out.println(resultado);
 		
 		//cuenta los que tienen 10 años
-		Integer cuantos = usuarioDAO.countByEdad(10);
-		System.out.println(cuantos);
+		//Integer cuantos = usuarioDAO.countByEdad(10);
+		//System.out.println(cuantos);
 		
 		return "redirect:/";
 	}
