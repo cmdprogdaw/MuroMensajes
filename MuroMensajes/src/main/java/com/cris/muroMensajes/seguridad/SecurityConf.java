@@ -41,7 +41,8 @@ public class SecurityConf extends WebSecurityConfigurerAdapter{
     protected void configure(HttpSecurity http) throws Exception {
     	http
         .authorizeRequests() //si esta autorizacion de peticion de ruta encaja con (antMatchers):
-        	.antMatchers("/usuarios").permitAll() //permite a todo el mundo (incluso quien no este autenticado)
+        	//.antMatchers("/usuarios").permitAll() //permite a todo el mundo (incluso quien no este autenticado)
+            .antMatchers("/usuarios").authenticated()
         	//.antMatchers("/mensajes/**").authenticated() //entra cualquiera dentro de los roles > necesita autenticacion
 //        	.antMatchers("/usuarios/**").hasAuthority("ADMIN") // /usuarios/*cualquier cosa* > tiene q ser administrador
         	.antMatchers("/usuarios/anadir").hasAnyAuthority("ADMIN","MODERADOR") //administrador y moderador

@@ -147,13 +147,13 @@ public class UsuarioRutas {
 		String quien = authentication.getName();
 		List<GrantedAuthority> autoridades = (List<GrantedAuthority>) authentication.getAuthorities();
 		
-		System.out.println(autoridades);
+		//System.out.println(autoridades);
 		
 		
 		for (GrantedAuthority autoridad : autoridades) {
-			System.out.println(autoridad.getAuthority());
+			//System.out.println(autoridad.getAuthority());
 		
-			if(!quien.equalsIgnoreCase(id) && !autoridad.getAuthority().equals("ADMIN")) {
+			if(!quien.equalsIgnoreCase(id) && !autoridad.getAuthority().equals("ADMIN") && !autoridad.getAuthority().equals("MODERADOR")) {
 				mav.setViewName("redirect:/usuarios");
 				return mav;
 			}
@@ -177,7 +177,22 @@ public class UsuarioRutas {
 	
 
 	@GetMapping("/usuarios/borrar/{id}")
-	public String usuariosBorrar(@PathVariable String id) {
+	public String usuariosBorrar(@PathVariable String id, Authentication authentication) {
+		
+
+		
+		String quien = authentication.getName();
+		List<GrantedAuthority> autoridades = (List<GrantedAuthority>) authentication.getAuthorities();
+		
+		
+		
+		for (GrantedAuthority autoridad : autoridades) {
+		
+			if(!quien.equalsIgnoreCase(id) && !autoridad.getAuthority().equals("ADMIN")) {
+				
+				return "redirect:/usuarios";
+			}
+		}
 		
 		usuarioDAO.deleteById(id);
 		
