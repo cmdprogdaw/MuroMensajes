@@ -17,6 +17,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
+import com.cris.muroMensajes.beans.Encoder;
 import com.cris.muroMensajes.roles.Rol;
 import com.cris.muroMensajes.roles.RolDAO;
 
@@ -29,6 +30,8 @@ public class UsuarioRutas {
 	@Autowired
 	private RolDAO rolDAO;	
 	
+	@Autowired
+	private Encoder encoder;
 
 	
 	@GetMapping("/consultas")
@@ -103,8 +106,8 @@ public class UsuarioRutas {
 	@PostMapping("/usuarios/anadir")
 	public String usuariosAnadir(@ModelAttribute Usuario usuario) {
 		
-		BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
-		usuario.setPassword(passwordEncoder.encode(usuario.getPassword()));
+		
+		usuario.setPassword(encoder.encoder().encode(usuario.getPassword()));
 		
 		usuarioDAO.save(usuario);
 		
