@@ -26,9 +26,9 @@
   <!-- Header -->
   <header class="masthead">
   
-	<div>
+	<!--<div>
     	<p>Tienes <span th:remove="tag" th:text="${session.carrito.productos}"></span> producto(s)</p>
-	</div>
+	</div>-->
 
 	
     <div class="row p-5">
@@ -58,7 +58,7 @@
 				        <td th:text="${user.apellidos}"></td>
 				        <td th:text="${user.rol.nombre}"></td>
 				        <td >
-				        	<span th:remove="tag" th:if=" (${#authorization.expression('hasAnyAuthority(''ADMIN'',''MODERADOR'')')}) or (${#authentication.name} == ${user.usuario})">
+				        	<span th:remove="tag" th:if=" (${#authorization.expression('hasAuthority(''ADMIN'')')}) or (${#authentication.name} == ${user.usuario})">
 					        	<a type="button" class="btn btn-primary btn-sm" th:href="@{/usuarios/editar/{id}(id=${user.usuario})}">Editar</a>
 							</span>
 						</td>

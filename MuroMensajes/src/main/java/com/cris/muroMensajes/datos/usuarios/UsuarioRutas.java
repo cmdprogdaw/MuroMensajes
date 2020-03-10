@@ -140,26 +140,26 @@ public class UsuarioRutas {
 	@GetMapping("/usuarios/editar/{id}")
 	public ModelAndView usuariosEditar(@PathVariable String id, Authentication authentication) {
 		
-		
-		
+		ModelAndView mav = new ModelAndView();
 		
 		String quien = authentication.getName();
-		List<GrantedAuthority> grantedAuthorities = (List<GrantedAuthority>)authentication.getAuthorities();
-		System.out.println(grantedAuthorities);
+		List<GrantedAuthority> autoridades = (List<GrantedAuthority>) authentication.getAuthorities();
 		
-		if(!quien.equalsIgnoreCase(id)) {
-			
-			ModelAndView mav = new ModelAndView();
-			mav.setViewName("redirect:/usuarios");
-			
-			return mav;
+		System.out.println(autoridades);
+		
+		
+		for (GrantedAuthority autoridad : autoridades) {
+			System.out.println(autoridad.getAuthority());
+		
+			if(!quien.equalsIgnoreCase(id) && !autoridad.getAuthority().equals("ADMIN")) {
+				mav.setViewName("redirect:/usuarios");
+				return mav;
+			}
 		}
-		
 		
 		
 		Usuario user = usuarioDAO.findById(id).get();
 		
-		ModelAndView mav = new ModelAndView();
 		mav.setViewName("editarUser");
 		mav.addObject("user",user);
 		

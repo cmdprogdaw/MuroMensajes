@@ -43,9 +43,10 @@ public class SecurityConf extends WebSecurityConfigurerAdapter{
         .authorizeRequests() //si esta autorizacion de peticion de ruta encaja con (antMatchers):
         	.antMatchers("/usuarios").permitAll() //permite a todo el mundo (incluso quien no este autenticado)
         	//.antMatchers("/mensajes/**").authenticated() //entra cualquiera dentro de los roles > necesita autenticacion
-        	.antMatchers("/usuarios/**").hasAuthority("ADMIN") // /usuarios/*cualquier cosa* > tiene q ser administrador
+//        	.antMatchers("/usuarios/**").hasAuthority("ADMIN") // /usuarios/*cualquier cosa* > tiene q ser administrador
         	.antMatchers("/usuarios/anadir").hasAnyAuthority("ADMIN","MODERADOR") //administrador y moderador
         	.antMatchers("/mensajes/borrar/**/").hasAnyAuthority("ADMIN","MODERADOR")
+//        	.antMatchers("/usuarios/editar/**/").hasAnyAuthority("ADMIN")
 	        .and()    	
         .formLogin()
             .loginPage("/login").permitAll() //permitir que aqui entre todo el mundo 
