@@ -8,7 +8,6 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,7 +16,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.servlet.ModelAndView;
 
-import com.cris.muroMensajes.beans.Encoder;
+import com.cris.muroMensajes.beans.PassEncoder;
 import com.cris.muroMensajes.roles.Rol;
 import com.cris.muroMensajes.roles.RolDAO;
 
@@ -31,7 +30,7 @@ public class UsuarioRutas {
 	private RolDAO rolDAO;	
 	
 	@Autowired
-	private Encoder encoder;
+	private PassEncoder passEncoder;
 
 	
 	@GetMapping("/consultas")
@@ -107,7 +106,7 @@ public class UsuarioRutas {
 	public String usuariosAnadir(@ModelAttribute Usuario usuario) {
 		
 		
-		usuario.setPassword(encoder.encoder().encode(usuario.getPassword()));
+		usuario.setPassword(passEncoder.encoder().encode(usuario.getPassword()));
 		
 		usuarioDAO.save(usuario);
 		
